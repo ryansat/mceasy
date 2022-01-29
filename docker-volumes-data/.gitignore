@@ -1,4 +1,0 @@
-/db/*
-/redis/*
-!/db/.gitignore
-!/redis/.gitignore
