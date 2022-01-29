@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+  webserver:
+    image: 'nginx:alpine'
+    volumes:
+      - './api:/var/www'
+      - './docker/nginx/conf.d/:/etc/nginx/conf.d/'
+    ports:
+      - "8000:80"
+
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    volumes:
+      - './api:/var/www'
+    links:
+      - mysql
+    working_dir: /var/www
+
+  mysql:
+    image: mysql:5.7.32
+    container_name: mysql
+    ports:
+      - '4306:3306'
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql

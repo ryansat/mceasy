@@ -1,0 +1,80 @@
+<template>
+    <div class="container mt-3">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card card-default">
+                    <div class="card-header">TAMBAH BARANG</div>
+
+                    <div class="card-body">
+
+                        <form @submit.prevent="PostStore">
+
+                            <div class="form-group">
+                                <label>NAMA</label>
+                                <input type="text" class="form-control" v-model="post.title"
+                                       placeholder="Masukkan Nama Barang">
+                                <div v-if="validation.title">
+                                    <div class="alert alert-danger mt-1" role="alert">
+                                        {{ validation.title[0] }}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>JENIS</label>
+                                <textarea class="form-control" v-model="post.content" rows="5"
+                                          placeholder="Masukkan Jenis Barang"></textarea>
+                                <div v-if="validation.content">
+                                    <div class="alert alert-danger mt-1" role="alert">
+                                        {{ validation.content[0] }}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-md btn-success">SIMPAN</button>
+                                <button type="reset" class="btn btn-md btn-danger">RESET</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<script>
+    export default {
+        data() {
+            return {
+                post: {},
+                validation: [],
+                loggedIn: localStorage.getItem('loggedIn'),
+                //state token
+                token: localStorage.getItem('token'),
+            }
+        },
+        created() {
+            if (this.token == null) {
+                return this.$router.push({ name: 'login' }) 
+            }
+
+        },
+        methods: {
+            PostStore() {
+                let uri = 'http://localhost:8000/api/posts/store';
+                this.axios.post(uri, this.post)
+                    .then((response) => {
+                        this.$router.push({
+                            name: 'dashboard'
+                        });
+                    }).catch(error => {
+                    this.validation = error.response.data.data;
+                });
+            }
+        }
+    }
+</script>
