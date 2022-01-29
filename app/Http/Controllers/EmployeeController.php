@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Employee;
+use DB;
+use App\PaidLeaves;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,6 +18,28 @@ class EmployeeController extends Controller
             'message' => 'List Semua Employees',
             'data' => $employees
         ], 200);
+    }
+
+    public function showmost()
+    {
+        $mostleave = DB::table('paid_leaves')
+                    ->selectRaw('SUM(paid_leaves.lamacuti) as jumlahcuti,idpegawai')
+                    ->groupBy('idpegawai')
+                    ->get();
+
+        if ($mostleave) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Cuti!',
+                'data'    => $mostleave
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cuti Tidak Ditemukan!',
+                'data'    => ''
+            ], 404);
+        }
     }
 
     public function store(Request $request)

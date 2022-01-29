@@ -15,26 +15,32 @@ Vue.use(VueAxios, axios);
 import IndexComponent from './components/employee/Index.vue';
 import CreateComponent from './components/employee/Create.vue';
 import EditComponent from './components/employee/Edit.vue';
+import ShowMostPaidLeaveComponent from './components/employee/Most.vue';
 import LoginComponent from './components/auth/Login.vue';
 import RegisterComponent from './components/auth/Register.vue';
+import IndexPaidLeaveComponent from './components/paidleave/Index.vue';
+import CreatePaidLeaveComponent from './components/paidleave/Create.vue';
+import EditPaidLeaveComponent from './components/paidleave/Edit.vue';
 
 const routes = [
     {
         name: 'dashboard',
-        path: '/',
+        path: '/employee',
         component: IndexComponent,
         meta: { requiresAuth: true }
     },
     {
         name: 'create',
-        path: '/create',
+        path: '/employee/create',
         component: CreateComponent
     },
     {
         name: 'edit',
-        path: '/edit/:id',
+        path: '/employee/:id',
         component: EditComponent
     },
+
+    //user registration
     {
         name: 'login',
         path: '/login',
@@ -44,7 +50,31 @@ const routes = [
         name: 'register',
         path: '/register',
         component: RegisterComponent
-    }
+    },
+
+    //paid_leave
+    {
+        name: 'mostleave',
+        path: '/employee/mostleave',
+        component: ShowMostPaidLeaveComponent
+    },
+    {
+        name: 'paidleave',
+        path: '/paidleave',
+        component: IndexPaidLeaveComponent,
+        meta: { requiresAuth: true }
+    },
+    {
+        name: 'paidleavecreate',
+        path: '/paidleave/create',
+        component: CreatePaidLeaveComponent
+    },
+    {
+        name: 'paidleaveedit',
+        path: '/paidleave/:id',
+        component: EditPaidLeaveComponent
+    },
+
 ];
 
 const router = new VueRouter({

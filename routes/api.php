@@ -20,10 +20,19 @@ Route::post('/posts/update/{id?}', 'PostsController@update');
 Route::delete('/posts/{id?}', 'PostsController@destroy');
 
 Route::get('/employees', 'EmployeeController@index');
+Route::get('/employees/paidleavereport', 'EmployeeController@showmost');
 Route::post('/employees/store', 'EmployeeController@store');
 Route::get('/employees/{id?}', 'EmployeeController@show');
 Route::post('/employees/update/{id?}', 'EmployeeController@update');
 Route::delete('/employees/{id?}', 'EmployeeController@destroy');
+
+
+Route::get('/paidleaves', 'PaidLeavesController@index');
+Route::post('/paidleaves/store', 'PaidLeavesController@store');
+Route::get('/paidleaves/{id?}', 'PaidLeavesController@show');
+Route::post('/paidleaves/update/{id?}', 'PaidLeavesController@update');
+Route::delete('/paidleaves/{id?}', 'PaidLeavesController@destroy');
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

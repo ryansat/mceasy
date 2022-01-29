@@ -3,11 +3,9 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card card-default">
-                    <div class="card-header">PEGAWAI</div>
+                    <div class="card-header">DAFTAR CUTI</div>
                     <div class="card-body">
-                        <router-link :to="{ name: 'create' }" class="btn btn-md btn-success">TAMBAH PEGAWAI</router-link>
-                        <router-link :to="{ name: 'mostleave' }" class="btn btn-md btn-success">LIHAT STATUS CUTI</router-link>
-                        <router-link :to="{ name: 'paidleave' }" class="btn btn-md btn-success">LIHAT SEMUA CUTI</router-link>
+                        <!-- <router-link :to="{ name: 'create' }" class="btn btn-md btn-success">DAFTAR CUTI</router-link> -->
                         <button @click.prevent="logout" class="btn btn-sm btn-danger">LOGOUT</button>
 
                         <div class="table-responsive mt-2">
@@ -15,24 +13,18 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>NAMA</th>
-                                    <th>ALAMAT</th>
-                                    <th>TGL LAHIR</th>
-                                    <th>TGL BERGABUNG</th>
-                                    <th>AKSI</th>
+                                    <th>JUMLAH CUTI</th>
+                                    <!-- <th>AKSI</th> -->
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="(employee, index) in employees" :key="employee.id">
-                                    <td>{{ employee.id }}</td>
-                                    <td>{{ employee.name }}</td>
-                                    <td>{{ employee.address }}</td>
-                                    <td>{{ employee.birthdate }}</td>
-                                    <td>{{ employee.joindate }}</td>
-                                    <td class="text-center">
+                                <tr v-for="(employee) in employees" :key="employee.id">
+                                    <td>{{ employee.idpegawai }}</td>
+                                    <td>{{ employee.jumlahcuti }}</td>
+                                    <!-- <td class="text-center">
                                         <router-link :to="{name: 'edit', params: { id: employee.id }}" class="btn btn-sm btn-primary">EDIT</router-link>
                                         <button @click.prevent="employeeDelete(employee.id, index)" class="btn btn-sm btn-danger">HAPUS</button>
-                                    </td>
+                                    </td> -->
                                 </tr>
                                 </tbody>
                             </table>
@@ -58,8 +50,9 @@
         created() {
             // console.log(this.token)
             if (this.token != null) {
-                let uri = `http://localhost:8000/api/employees`;
+                let uri = `http://localhost:8000/api/employees/paidleavereport`;
                 this.axios.get(uri).then(response => {
+                    console.log(response);
                     this.employees = response.data.data;
                 });
             }else {
@@ -68,15 +61,15 @@
             
         },
         methods: {
-            employeeDelete(id, index)
-            {
-                this.axios.delete(`http://localhost:8000/api/employees/${id}`)
-                    .then(response => {
-                        this.employees.splice(index, 1);
-                    }).catch(error => {
-                    alert('system error!');
-                });
-            },
+            // employeeDelete(id, index)
+            // {
+            //     this.axios.delete(`http://localhost:8000/api/employees/${id}`)
+            //         .then(response => {
+            //             this.employees.splice(index, 1);
+            //         }).catch(error => {
+            //         alert('system error!');
+            //     });
+            // },
             logout(){    
                 let token = localStorage.getItem('token')
                 axios.defaults.headers.common.Authorization = `Bearer ${token}`
