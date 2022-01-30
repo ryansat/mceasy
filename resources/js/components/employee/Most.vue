@@ -52,7 +52,7 @@
             if (this.token != null) {
                 let uri = `http://localhost:8000/api/employees/paidleavereport`;
                 this.axios.get(uri).then(response => {
-                    console.log(response);
+                    //console.log(response);
                     this.employees = response.data.data;
                 });
             }else {
@@ -61,15 +61,6 @@
             
         },
         methods: {
-            // employeeDelete(id, index)
-            // {
-            //     this.axios.delete(`http://localhost:8000/api/employees/${id}`)
-            //         .then(response => {
-            //             this.employees.splice(index, 1);
-            //         }).catch(error => {
-            //         alert('system error!');
-            //     });
-            // },
             logout(){    
                 let token = localStorage.getItem('token')
                 axios.defaults.headers.common.Authorization = `Bearer ${token}`

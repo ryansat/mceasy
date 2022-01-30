@@ -44,33 +44,6 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
-        //validate data
-        // $validator = Validator::make($request->all(), [
-        //     'employeeid'     => 'required',
-        //     'name'           => 'required',
-        //     'address'        => 'required',
-        //     'birthdate'      => 'birthdate',
-        //     'joindate'       => 'joindate',
-        // ],
-        //     [
-        //         'employeeid.required' => 'Masukkan nomor induk employee !',
-        //         'name.required' => 'Masukkan nama employee !',
-        //         'address.required' => 'Masukkan alamat employee !',
-        //         'birthdate.required' => 'Masukkan tanggal lahir employee !',
-        //         'joindate.required' => 'Masukkan tanggal bergabung employee !',
-        //     ]
-        // );
-
-        // if($validator->fails()) {
-
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => 'Silahkan Isi Bidang Yang Kosong',
-        //         'data'    => $validator->errors()
-        //     ],400);
-
-        // } else {
-
             $employee = Employee::create([
                 'employeeid'     => $request->input('employeeid'),
                 'name'   => $request->input('name'),
@@ -91,7 +64,6 @@ class EmployeeController extends Controller
                     'message' => 'Employee Gagal Disimpan!',
                 ], 400);
             }
-        //}
     }
 
 

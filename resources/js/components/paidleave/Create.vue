@@ -69,11 +69,15 @@
                 let uri = 'http://localhost:8000/api/paidleaves/store';
                 this.axios.post(uri, this.paidleave)
                     .then((response) => {
-                        this.$router.push({
-                            name: 'paidleave'
-                        });
+                        if(response.status == 200) {
+                            this.$router.push({
+                                name: 'paidleave'
+                            });
+                        }else if(response.status == 400){
+                             this.$alert(response);
+                        }
                     }).catch(error => {
-                    this.validation = error.response.data.data;
+                    this.$alert(error.response.data.message);
                 });
             }
         }
