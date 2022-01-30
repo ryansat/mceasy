@@ -12,7 +12,7 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $employees = Employee::latest()->get();
+        $employees = Employee::first()->get();
         return response([
             'success' => true,
             'message' => 'List Semua Employees',
@@ -20,12 +20,57 @@ class EmployeeController extends Controller
         ], 200);
     }
 
+    public function joindate(){
+        $mostleave = DB::select(DB::raw("SELECT paid_leaves.*,EMPLOYEES.name from paid_leaves
+                                        RIGHT JOIN
+                                        EMPLOYEES on EMPLOYEES.id = paid_leaves.idpegawai
+                                        WHERE paid_leaves.idpegawai IN (
+                                        (SELECT idpegawai FROM paid_leaves
+                                        GROUP BY paid_leaves.idpegawai HAVING SUM(paid_leaves.lamacuti) > 1)
+                                        )     
+                                        "));                    
+
+        $jumlahleave = array_column($mostleave, 'jumlahcuti');
+
+        if ($mostleave) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Cuti!',
+                'data'    => $mostleave
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cuti Tidak Ditemukan!',
+                'data'    => ''
+            ], 404);
+        }
+        // $employees = Employee::latest()->get();
+        // return response([
+        //     'success' => true,
+        //     'message' => 'List Semua Employees',
+        //     'data' => $employees
+        // ], 200);
+
+    }
+
     public function showmost()
     {
-        $mostleave = DB::table('paid_leaves')
-                    ->selectRaw('SUM(paid_leaves.lamacuti) as jumlahcuti,idpegawai')
-                    ->groupBy('idpegawai')
-                    ->get();
+        // $mostleave = DB::table('paid_leaves')
+        //             ->selectRaw('SUM(paid_leaves.lamacuti) as jumlahcuti,idpegawai')
+        //             ->groupBy('idpegawai')
+        //             ->get();
+
+        $mostleave = DB::select(DB::raw("SELECT paid_leaves.*,EMPLOYEES.name from paid_leaves
+                                        RIGHT JOIN
+                                        EMPLOYEES on EMPLOYEES.id = paid_leaves.idpegawai
+                                        WHERE paid_leaves.idpegawai IN (
+                                        (SELECT idpegawai FROM paid_leaves
+                                        GROUP BY paid_leaves.idpegawai HAVING SUM(paid_leaves.lamacuti) > 1)
+                                        )     
+                                        "));                    
+
+        $jumlahleave = array_column($mostleave, 'jumlahcuti');
 
         if ($mostleave) {
             return response()->json([
@@ -69,18 +114,27 @@ class EmployeeController extends Controller
 
     public function show($id)
     {
-        $employee = Employee::whereId($id)->first();
+        $mostleave = DB::select(DB::raw("SELECT a.*
+                                        FROM EMPLOYEES AS a
+                                        JOIN (SELECT joindate
+                                            FROM EMPLOYEES
+                                            ORDER BY joindate ASC
+                                            LIMIT 3) AS b
+                                        ON a.joindate = b.joindate    
+                                        "));                    
 
-        if ($employee) {
+        $jumlahleave = array_column($mostleave, 'jumlahcuti');
+
+        if ($mostleave) {
             return response()->json([
                 'success' => true,
-                'message' => 'Detail Employee!',
-                'data'    => $employee
+                'message' => 'Detail Cuti!',
+                'data'    => $mostleave
             ], 200);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Employee Tidak Ditemukan!',
+                'message' => 'Cuti Tidak Ditemukan!',
                 'data'    => ''
             ], 404);
         }

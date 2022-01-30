@@ -6,8 +6,9 @@
                     <div class="card-header">PEGAWAI</div>
                     <div class="card-body">
                         <router-link :to="{ name: 'create' }" class="btn btn-md btn-success">TAMBAH PEGAWAI</router-link>
-                        <router-link :to="{ name: 'mostleave' }" class="btn btn-md btn-success">LIHAT STATUS CUTI</router-link>
-                        <router-link :to="{ name: 'paidleave' }" class="btn btn-md btn-success">LIHAT SEMUA CUTI</router-link>
+                        <router-link :to="{ name: 'mostleave' }" class="btn btn-md btn-success">LIHAT CUTI KARYAWAN > 1</router-link>
+                        <router-link :to="{ name: 'paidleave' }" class="btn btn-md btn-success">LIHAT STATUS CUTI</router-link>
+                        <router-link :to="{ name: 'early' }" class="btn btn-md btn-success">TOP 3 KARYAWAN JOIN DATE</router-link>
                         <button @click.prevent="logout" class="btn btn-sm btn-danger">LOGOUT</button>
 
                         <div class="table-responsive mt-2">

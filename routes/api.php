@@ -20,12 +20,12 @@ Route::post('/posts/update/{id?}', 'PostsController@update');
 Route::delete('/posts/{id?}', 'PostsController@destroy');
 
 Route::get('/employees', 'EmployeeController@index');
+Route::get('/employees/joindate}', 'EmployeeController@joindate');
 Route::get('/employees/paidleavereport', 'EmployeeController@showmost');
 Route::post('/employees/store', 'EmployeeController@store');
 Route::get('/employees/{id?}', 'EmployeeController@show');
 Route::post('/employees/update/{id?}', 'EmployeeController@update');
 Route::delete('/employees/{id?}', 'EmployeeController@destroy');
-
 
 Route::get('/paidleaves', 'PaidLeavesController@index');
 Route::post('/paidleaves/store', 'PaidLeavesController@store');

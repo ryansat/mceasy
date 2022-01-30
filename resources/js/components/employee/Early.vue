@@ -3,27 +3,35 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card card-default">
-                    <div class="card-header">BARANG</div>
+                    <div class="card-header">PEGAWAI</div>
                     <div class="card-body">
-                        <router-link :to="{ name: 'create' }" class="btn btn-md btn-success">TAMBAH BARANG</router-link>
+                        <router-link :to="{ name: 'create' }" class="btn btn-md btn-success">TAMBAH PEGAWAI</router-link>
+                        <router-link :to="{ name: 'mostleave' }" class="btn btn-md btn-success">LIHAT STATUS CUTI</router-link>
+                        <router-link :to="{ name: 'paidleave' }" class="btn btn-md btn-success">LIHAT CUTI KARYAWAN > 1</router-link>
                         <button @click.prevent="logout" class="btn btn-sm btn-danger">LOGOUT</button>
 
                         <div class="table-responsive mt-2">
                             <table class="table table-hover table-bordered">
                                 <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>NAMA</th>
-                                    <th>JENIS</th>
+                                    <th>ALAMAT</th>
+                                    <th>TGL LAHIR</th>
+                                    <th>TGL BERGABUNG</th>
                                     <th>AKSI</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="(post, index) in posts" :key="post.id">
-                                    <td>{{ post.title }}</td>
-                                    <td>{{ post.content }}</td>
+                                <tr v-for="(employee, index) in employees" :key="employee.id">
+                                    <td>{{ employee.id }}</td>
+                                    <td>{{ employee.name }}</td>
+                                    <td>{{ employee.address }}</td>
+                                    <td>{{ employee.birthdate }}</td>
+                                    <td>{{ employee.joindate }}</td>
                                     <td class="text-center">
-                                        <router-link :to="{name: 'edit', params: { id: post.id }}" class="btn btn-sm btn-primary">EDIT</router-link>
-                                        <button @click.prevent="PostDelete(post.id, index)" class="btn btn-sm btn-danger">HAPUS</button>
+                                        <router-link :to="{name: 'edit', params: { id: employee.id }}" class="btn btn-sm btn-primary">EDIT</router-link>
+                                        <button @click.prevent="employeeDelete(employee.id, index)" class="btn btn-sm btn-danger">HAPUS</button>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -41,7 +49,7 @@
     export default {
         data() {
             return {
-                posts: [],
+                employees: [],
                 loggedIn: localStorage.getItem('loggedIn'),
                 //state token
                 token: localStorage.getItem('token'),
@@ -50,9 +58,9 @@
         created() {
             // console.log(this.token)
             if (this.token != null) {
-                let uri = `http://localhost:8000/api/posts`;
+                let uri = `http://localhost:8000/api/employees/show`;
                 this.axios.get(uri).then(response => {
-                    this.posts = response.data.data;
+                    this.employees = response.data.data;
                 });
             }else {
                 return this.$router.push({ name: 'login' }) 
@@ -60,11 +68,11 @@
             
         },
         methods: {
-            PostDelete(id, index)
+            employeeDelete(id, index)
             {
-                this.axios.delete(`http://localhost:8000/api/posts/${id}`)
+                this.axios.delete(`http://localhost:8000/api/employees/${id}`)
                     .then(response => {
-                        this.posts.splice(index, 1);
+                        this.employees.splice(index, 1);
                     }).catch(error => {
                     alert('system error!');
                 });

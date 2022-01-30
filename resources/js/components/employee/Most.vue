@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card card-default">
-                    <div class="card-header">DAFTAR CUTI</div>
+                    <div class="card-header">DAFTAR CUTI KARYAWAN LEBIH DARI 1 KALI</div>
                     <div class="card-body">
                         <!-- <router-link :to="{ name: 'create' }" class="btn btn-md btn-success">DAFTAR CUTI</router-link> -->
                         <button @click.prevent="logout" class="btn btn-sm btn-danger">LOGOUT</button>
@@ -13,14 +13,17 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>JUMLAH CUTI</th>
-                                    <!-- <th>AKSI</th> -->
+                                    <th>NAMA</th>
+                                    <th>TGL CUTI</th>
+                                    <th>KETERANGAN</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr v-for="(employee) in employees" :key="employee.id">
                                     <td>{{ employee.idpegawai }}</td>
-                                    <td>{{ employee.jumlahcuti }}</td>
+                                    <td>{{ employee.name }}</td>
+                                    <td>{{ employee.tglcuti }}</td>
+                                    <td>{{ employee.keterangan }}</td>
                                     <!-- <td class="text-center">
                                         <router-link :to="{name: 'edit', params: { id: employee.id }}" class="btn btn-sm btn-primary">EDIT</router-link>
                                         <button @click.prevent="employeeDelete(employee.id, index)" class="btn btn-sm btn-danger">HAPUS</button>

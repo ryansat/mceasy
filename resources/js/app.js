@@ -24,6 +24,7 @@ import RegisterComponent from './components/auth/Register.vue';
 import IndexPaidLeaveComponent from './components/paidleave/Index.vue';
 import CreatePaidLeaveComponent from './components/paidleave/Create.vue';
 import EditPaidLeaveComponent from './components/paidleave/Edit.vue';
+import JoinDateomponent from './components/employee/Early.vue';
 
 const routes = [
     {
@@ -41,6 +42,11 @@ const routes = [
         name: 'edit',
         path: '/employee/:id',
         component: EditComponent
+    },
+    {
+        name: 'early',
+        path: '/employee/early',
+        component: JoinDateomponent
     },
 
     //user registration
